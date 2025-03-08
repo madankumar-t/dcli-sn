@@ -5,14 +5,29 @@ image:
   tag: dk-sn
   pullPolicy: Always
 
-imagePullSecrets: []
+imagePullSecrets:
   - name: regcred
+
 nameOverride: ""
 fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  name: ""
 
 service:
   type: ClusterIP
   port: 80
+
+ingress:
+  enabled: false
+  annotations: {}
+  hosts:
+    - host: example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
 
 resources:
   limits:

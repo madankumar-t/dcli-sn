@@ -1,57 +1,42 @@
 replicaCount: 2
 
 image:
-  facade:
-    repository: 977099017816.dkr.ecr.us-east-2.amazonaws.com/core/demo-project/facade
-    tag: feature_SN-125_9361ec5
-    pullPolicy: Always
-
-  service:
-    repository: 977099017816.dkr.ecr.us-east-2.amazonaws.com/core/demo-project/service
-    tag: feature_SN-125_9361ec5
-    pullPolicy: Always
-
-  uiMinimal:
-    repository: 977099017816.dkr.ecr.us-east-2.amazonaws.com/core/demo-project/ui-minimal
-    tag: feature_SN-125_9361ec5
-    pullPolicy: Always
+  repository: 977099017816.dkr.ecr.us-east-2.amazonaws.com/core/demo-project/facade
+  tag: feature_SN-125_9361ec5
+  pullPolicy: Always
 
 imagePullSecrets:
   - name: regcred
 
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  name: ""
+
 service:
   type: ClusterIP
-  facade:
-    port: 8080
-  service:
-    port: 8081
-  uiMinimal:
-    port: 3000
+  port: 80
+
+ingress:
+  enabled: false
+  annotations: {}
+  hosts:
+    - host: example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
 
 resources:
   limits:
-    cpu: "500m"
-    memory: "512Mi"
+    cpu: 500m
+    memory: 512Mi
   requests:
-    cpu: "250m"
-    memory: "256Mi"
-
-livenessProbe:
-  httpGet:
-    path: /health
-    port: 8080
-  initialDelaySeconds: 10
-  periodSeconds: 5
-
-readinessProbe:
-  httpGet:
-    path: /health
-    port: 8080
-  initialDelaySeconds: 10
-  periodSeconds: 5
+    cpu: 250m
+    memory: 256Mi
 
 nodeSelector: {}
-
 tolerations: []
-
 affinity: {}
